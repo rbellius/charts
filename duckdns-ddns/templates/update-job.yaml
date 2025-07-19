@@ -1,0 +1,36 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 'get-ip-job'
+  namespace: duckdns-ddns
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+spec:
+  backoffLimit: 10
+  ttlSecondsAfterFinished: 60
+  template:
+    metadata:
+      labels:
+        app: 'get-ip-job'
+    spec:
+
+      serviceAccountName: service-reader-sa
+      restartPolicy: OnFailure
+      containers:
+      - name: 'kubectl-duckdns-update-container'
+        image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
+        command: ["/bin/sh", "-c"]
+
+        args:
+          - |
+            kubectl version
+            
+            echo "Getting the current public IP address of the k8s-gateway service"
+            export GATEWAY_IP=$(kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
+            
+            echo "Gateway IP: ${GATEWAY_IP}"
+            echo "Updating DuckDNS with the current public IP address: ${GATEWAY_IP}"
+            curl -s "https://www.duckdns.org/update/{{ .Values.duckdns.domain }}/{{ .Values.duckdns.token }}/${GATEWAY_IP}?verbose=true"

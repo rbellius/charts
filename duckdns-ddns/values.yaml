@@ -1,0 +1,5 @@
+domain: 'example.duckdns.org'
+token: 'your-duckdns-token'
+
+kubectl:
+  version: '1.31'
