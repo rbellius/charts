@@ -2,12 +2,20 @@ apiVersion: v1
 entries:
   duckdns-ddns:
   - apiVersion: v2
+    created: "2025-07-19T23:37:21.78753417-05:00"
+    description: A Helm chart for Kubernetes
+    digest: 16ea96313985313b6dac1d0366175952be9a0ffc3faf5441d9664b7e1616cd85
+    name: duckdns-ddns
+    urls:
+    - duckdns-ddns-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-07-19T16:54:12.143862126-05:00"
+    created: "2025-07-19T23:37:21.787341754-05:00"
     description: A Helm chart for Kubernetes
     digest: 033d32cbdb7bf9bf4ffe6c42390a0a5f2de626b4b6df3cc4f15d1fdbd6a24516
     name: duckdns-ddns
     urls:
     - duckdns-ddns-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-19T16:54:12.143668203-05:00"
+generated: "2025-07-19T23:37:21.786990499-05:00"
