@@ -2,18 +2,18 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 'get-ip-job'
+  name: 'duckdns-ip-job'
   namespace: duckdns-ddns
-  annotations:
-    helm.sh/hook: post-install
-    helm.sh/hook-weight: "1"
+  # annotations:
+  #   helm.sh/hook: post-install
+  #   helm.sh/hook-weight: "1"
 spec:
   backoffLimit: 10
-  ttlSecondsAfterFinished: 60
+  ttlSecondsAfterFinished: 600
   template:
     metadata:
       labels:
-        app: 'get-ip-job'
+        app: 'duckdns-ip-job'
     spec:
 
       serviceAccountName: service-reader-sa
@@ -32,5 +32,5 @@ spec:
             yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
             
             echo "Gateway IP: ${GATEWAY_IP}"
-            echo "Updating DuckDNS with the current public IP address: ${GATEWAY_IP}"
+            echo "Updating {{ .Values.duckdns.domain}} DuckDNS with the current public IP address: ${GATEWAY_IP}"
             curl -s "https://www.duckdns.org/update/{{ .Values.duckdns.domain }}/{{ .Values.duckdns.token }}/${GATEWAY_IP}?verbose=true"
