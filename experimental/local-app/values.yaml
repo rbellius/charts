@@ -1,0 +1,42 @@
+name: nginx
+namespace: local
+
+domain: example.com
+subdomain: app
+
+env: staging
+
+image:
+  repository: nginx
+  tag: latest
+
+# tls:
+#   enabled: true
+#   provider: cloudflare
+#   email: example@email.com
+#   api-key: <your-cloudflare-api-key>
+
+# cert-manager:
+#   crds:
+#     enabled: true
+#     keep: true  
+
+
+# k8s-gateway:
+#   domain: example.com
+#   apex: example.com
+
+#   watchedResources: ["Ingress"]
+
+#   service:
+#     type: LoadBalancer
+#     externalTrafficPolicy: Local 
+
+#   fallthrough:
+#     enabled: true
+
+#   debug:
+#     enabled: true
+
+# argocd:
+#   enabled: false

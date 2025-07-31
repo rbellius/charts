@@ -1,0 +1,71 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: '{{ .Values.name }}'
+  namespace: '{{ .Values.namespace | default .Values.name }}'
+  annotations:
+    cert-manager.io/cluster-issuer: duckdns-letsencrypt-{{ .Values.env }}
+    # cert-manager.io/cluster-issuer: acme-issuer-{{ .Values.env }}
+    # external-dns.alpha.kubernetes.io/hostname: '{{ .Values.subdomain | default .Values.name }}.{{ .Values.domain }}'
+    # external-dns.alpha.kubernetes.io/target: 192.168.12.184
+  labels:
+    app.kubernetes.io/component: ingress
+    app.kubernetes.io/instance:  '{{ .Values.name }}-service'
+    app.kubernetes.io/name: '{{ .Values.name }}'
+    app.kubernetes.io/part-of: '{{ .Values.namespace | default .Values.name }}'
+spec: 
+  ingressClassName: traefik
+
+  tls:
+  - secretName: cert-{{ .Values.env }}-tls
+  # - secretName: cm-cluster-issuer-cert-manager-duckdns-webhook-webhook-tls
+    hosts:
+      - '{{ .Values.subdomain }}.{{ .Values.domain }}'
+
+  rules:
+  - host: '{{ .Values.subdomain | default .Values.name }}.{{ .Values.domain }}'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: '{{ .Values.name }}'
+            port:
+              number: 80
+
+
+
+        # apiVersion: networking.k8s.io/v1
+        # kind: Ingress
+        # metadata:
+        #   name: ${schema.metadata.name}-ingress
+        #   namespace: ${schema.metadata.namespace}
+        #   annotations:
+        #     cert-manager.io/cluster-issuer: duckdns-letsencrypt-${schema.spec.ingress.env}
+        #   labels:
+        #       app.kubernetes.io/component: ingress
+        #       app.kubernetes.io/instance:  webapp-${schema.metadata.name}-service
+        #       app.kubernetes.io/name: ${schema.metadata.name}
+        #       app.kubernetes.io/part-of: ${schema.metadata.namespace}
+              # app.kubernetes.io/managed-by: 
+
+        # spec: 
+        #   ingressClassName: ${schema.spec.ingress.class}
+
+        #   tls:
+        #   - secretName: cert-staging-tls
+        #     hosts:
+        #       - '${schema.spec.ingress.subdomain}.${schema.spec.ingress.domain}'
+
+        #   rules:
+        #   - host: '${schema.spec.ingress.subdomain}.${schema.spec.ingress.domain}'
+        #     http:
+        #       paths:
+        #       - path: /
+        #         pathType: Prefix
+        #         backend:
+        #           service:
+        #             name:  ${service.metadata.name} # Use the service name
+        #             port:
+        #               number: ${service.spec.ports[0].port} # Use the service port
