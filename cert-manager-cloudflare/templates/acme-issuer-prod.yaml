@@ -8,7 +8,6 @@ metadata:
 spec:
   acme:
   
-
     # Email address used for ACME registration
     email: {{ .Values.email }}
 
@@ -35,7 +34,7 @@ spec:
 
           # Cloudflare Orgin CA API Token
           apiKeySecretRef:
-            name: '{{ .Values.tls.provider}}-api-key-secret'
+            name: '{{ .Values.provider}}-api-key-secret'
             key: {{ .Values.provider }} 
       selector:
         dnsZones:
