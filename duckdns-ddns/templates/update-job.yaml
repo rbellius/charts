@@ -7,7 +7,7 @@ metadata:
   annotations:
     # helm.sh/hook: post-install
     # helm.sh/hook-weight: "1"
-    argocd.argoproj.io/instance: cert-manager-cloudflare"
+    argocd.argoproj.io/instance: duckdns-ddns
 spec:
   backoffLimit: 10
   ttlSecondsAfterFinished: 600
