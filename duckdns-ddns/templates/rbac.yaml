@@ -3,8 +3,8 @@ kind: ServiceAccount
 metadata:
   name: service-reader-sa
   namespace: duckdns-ddns
-  # annotations:
-  #   argocd.argoproj.io/instance: duckdns-ddns
+  annotations:
+    argocd.argoproj.io/instance: duckdns-ddns
 ---
 
 kind: ClusterRole
@@ -12,8 +12,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   namespace: kube-system
   name: service-reader
-  # annotations:
-  #   argocd.argoproj.io/instance: duckdns-ddns
+  annotations:
+    argocd.argoproj.io/instance: duckdns-ddns
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["services"]
