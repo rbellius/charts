@@ -5,6 +5,7 @@ metadata:
   name: acme-issuer-staging
   annotations:
     argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/instance: cert-manager-cloudflare
 spec:
   acme:
 

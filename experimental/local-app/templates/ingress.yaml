@@ -5,6 +5,7 @@ metadata:
   namespace: '{{ .Values.namespace | default .Values.name }}'
   annotations:
     cert-manager.io/cluster-issuer: duckdns-letsencrypt-{{ .Values.env }}
+    argocd.argoproj.io/instance: '{{ .Values.name }}'
     # cert-manager.io/cluster-issuer: acme-issuer-{{ .Values.env }}
     # external-dns.alpha.kubernetes.io/hostname: '{{ .Values.subdomain | default .Values.name }}.{{ .Values.domain }}'
     # external-dns.alpha.kubernetes.io/target: 192.168.12.184
@@ -17,8 +18,7 @@ spec:
   ingressClassName: traefik
 
   tls:
-  - secretName: cert-{{ .Values.env }}-tls
-  # - secretName: cm-cluster-issuer-cert-manager-duckdns-webhook-webhook-tls
+  - secretName: '{{ .Values.name }}-{{ .Values.env }}-tls'
     hosts:
       - '{{ .Values.subdomain }}.{{ .Values.domain }}'
 
