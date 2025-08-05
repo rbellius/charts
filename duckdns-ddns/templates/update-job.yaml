@@ -26,11 +26,18 @@ spec:
       - name: 'kubectl-duckdns-update-container'
         image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
         command: ["/bin/sh", "-c"]
-
+        env:
+        - name: $DUCKDNS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: username
+        - name: MY_PASSWORD
         args:
           - |
             kubectl version
-            
+            echo "DUCKDNS TOKEN"
+            echo $DUCKDNS_TOKEN
             echo "Getting the current public IP address of the k8s-gateway service"
             export GATEWAY_IP=$(kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
             yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
