@@ -43,4 +43,4 @@ spec:
             
             echo "Gateway IP: ${GATEWAY_IP}"
             echo "Updating {{ .Values.domain }} @ DuckDNS with the current public IP address: ${GATEWAY_IP}"
-            curl -s "https://www.duckdns.org/update/{{ .Values.domain }}/{{ .Values.token }}/${GATEWAY_IP}?verbose=true"
+            curl -s "https://www.duckdns.org/update/{{ .Values.domain }}/${DUCKDNS_TOKEN}/${GATEWAY_IP}?verbose=true"
