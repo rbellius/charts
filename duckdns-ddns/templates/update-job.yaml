@@ -1,8 +1,10 @@
 
 apiVersion: batch/v1
 kind: Job
+
+
 metadata:
-  name: duckdns-update-job
+  name: duckdns-update-cronjob
   namespace: '{{ .Release.Namespace }}'
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
@@ -11,13 +13,19 @@ metadata:
     app.kubernetes.io/instance:  duckdns-ddns
     app.kubernetes.io/name: duckdns-ddns-job
     app.kubernetes.io/part-of: duckdns-ddns
+
+
 spec:
-  backoffLimit: 10
-  ttlSecondsAfterFinished: 600
-  template:
+
+  # backoffLimit: 10
+  # ttlSecondsAfterFinished: 3600
+  startingDeadlineSeconds: 300
+  concurrencyPolicy: Replace
+  schedule: "5 * * * *"
+  jobTemplate:
     metadata:
       labels:
-        app: 'duckdns-update-job'
+        app: 'duckdns-update-cronjob'
     spec:
 
       serviceAccountName: service-reader-sa
