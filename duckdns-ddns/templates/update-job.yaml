@@ -27,28 +27,29 @@ spec:
       labels:
         app: 'duckdns-update-cronjob'
     spec:
-
-      serviceAccountName: service-reader-sa
-      restartPolicy: OnFailure
-      containers:
-      - name: 'kubectl-duckdns-update-container'
-        image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
-        command: ["/bin/sh", "-c"]
-        env:
-        - name: DUCKDNS_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: '{{ .Values.secret.name }}'
-              key: '{{ .Values.secret.key }}'
-        args:
-          - |
-            kubectl version
-            echo "DUCKDNS TOKEN"
-            echo $DUCKDNS_TOKEN
-            echo "Getting the current public IP address of the k8s-gateway service"
-            export GATEWAY_IP=$(kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-            yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
-            
-            echo "Gateway IP: ${GATEWAY_IP}"
-            echo "Updating {{ .Values.domain }} @ DuckDNS with the current public IP address: ${GATEWAY_IP}"
-            curl -s "https://www.duckdns.org/update/{{ .Values.domain }}/${DUCKDNS_TOKEN}/${GATEWAY_IP}?verbose=true"
+      template:
+        spec:
+          serviceAccountName: service-reader-sa
+          restartPolicy: OnFailure
+          containers:
+          - name: 'kubectl-duckdns-update-container'
+            image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
+            command: ["/bin/sh", "-c"]
+            env:
+            - name: DUCKDNS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: '{{ .Values.secret.name }}'
+                  key: '{{ .Values.secret.key }}'
+            args:
+              - |
+                kubectl version
+                echo "DUCKDNS TOKEN"
+                echo $DUCKDNS_TOKEN
+                echo "Getting the current public IP address of the k8s-gateway service"
+                export GATEWAY_IP=$(kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
+                
+                echo "Gateway IP: ${GATEWAY_IP}"
+                echo "Updating {{ .Values.domain }} @ DuckDNS with the current public IP address: ${GATEWAY_IP}"
+                curl -s "https://www.duckdns.org/update/{{ .Values.domain }}/${DUCKDNS_TOKEN}/${GATEWAY_IP}?verbose=true"
