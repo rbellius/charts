@@ -46,9 +46,9 @@ spec:
         webhook:
           config:
             apiTokenSecretRef:
-              name: '{{ .Values.provider }}-api-key-secret'
-              key: '{{ .Values.provider }}'
-          groupName: 'acme.{{ .Values.domain }}'
+              name: 'duckdns-api-key-secret'
+              key: duckdns
+          groupName: 'acme.mikrolab.duckdns.org'
           solverName: duckdns
       selector:
         dnsZones:
