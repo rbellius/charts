@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-letsencrypt-prod
   annotations:
     argocd.argoproj.io/sync-wave: "5"
-    argocd.argoproj.io/instance: cert-manager-cloudflare
+    argocd.argoproj.io/instance: cert-manager-cloudflare-issuer-prod
 spec:
   acme:
   

@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-letsencrypt-staging
   annotations:
     argocd.argoproj.io/sync-wave: "5"
-    argocd.argoproj.io/instance: cert-manager-cloudflare
+    argocd.argoproj.io/instance: cert-manager-cloudflare-issuer-prod
 spec:
   acme:
 
@@ -42,17 +42,17 @@ spec:
         - '{{ .Values.domain }}'
 
 
-    - dns01:
-        webhook:
-          config:
-            apiTokenSecretRef:
-              name: 'duckdns-api-key-secret'
-              key: duckdns
-          groupName: 'acme.mikrolab.duckdns.org'
-          solverName: duckdns
-      selector:
-        dnsZones:
-        - 'duckdns.org'
+    # - dns01:
+    #     webhook:
+    #       config:
+    #         apiTokenSecretRef:
+    #           name: 'duckdns-api-key-secret'
+    #           key: duckdns
+    #       groupName: 'acme.mikrolab.duckdns.org'
+    #       solverName: duckdns
+    #   selector:
+    #     dnsZones:
+    #     - 'duckdns.org'
 
 
 

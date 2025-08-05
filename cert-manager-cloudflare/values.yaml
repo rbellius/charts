@@ -1,11 +1,3 @@
 provider: cloudflare
 email: email@example.com
 domain: example.com
-
-# providers:
-#   cloudflare:
-#     email: email@example.com
-#     domain: example.com
-#     secretName: provider-api-key-secret
-#   duckdns:
-#     domain: example.duckdns.org
