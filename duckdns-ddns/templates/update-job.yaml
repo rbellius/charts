@@ -32,7 +32,6 @@ spec:
             secretKeyRef:
               name: '{{ .Values.duckdns.secret.naame }}'
               key: '{{ .Values.duckdns.secret.key }}'
-        - name: MY_PASSWORD
         args:
           - |
             kubectl version
