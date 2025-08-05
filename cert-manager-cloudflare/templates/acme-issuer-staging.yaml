@@ -5,7 +5,12 @@ metadata:
   name: cloudflare-letsencrypt-staging
   annotations:
     argocd.argoproj.io/sync-wave: "5"
-    argocd.argoproj.io/instance: cert-manager-cloudflare-issuer-prod
+    argocd.argoproj.io/instance: cert-manager-cloudflare
+  labels:
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/component: cloudflare-issuer-staging
+    app.kubernetes.io/name: cert-manager-cloudflare-issuer-staging
+    app.kubernetes.io/part-of: cert-manager
 spec:
   acme:
 
