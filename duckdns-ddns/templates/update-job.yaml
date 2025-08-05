@@ -30,8 +30,8 @@ spec:
         - name: $DUCKDNS_TOKEN
           valueFrom:
             secretKeyRef:
-              name: '{{ .Values.duckdns.secret.name }}'
-              key: '{{ .Values.duckdns.secret.key }}'
+              name: '{{ .Values.secret.name }}'
+              key: '{{ .Values.secret.key }}'
         args:
           - |
             kubectl version
@@ -42,5 +42,5 @@ spec:
             yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
             
             echo "Gateway IP: ${GATEWAY_IP}"
-            echo "Updating {{ .Values.duckdns.domain}} @ DuckDNS with the current public IP address: ${GATEWAY_IP}"
-            curl -s "https://www.duckdns.org/update/{{ .Values.duckdns.domain }}/{{ .Values.duckdns.token }}/${GATEWAY_IP}?verbose=true"
+            echo "Updating {{ .Values.domain }} @ DuckDNS with the current public IP address: ${GATEWAY_IP}"
+            curl -s "https://www.duckdns.org/update/{{ .Values.domain }}/{{ .Values.token }}/${GATEWAY_IP}?verbose=true"
