@@ -1,5 +1,6 @@
 domain: 'example.duckdns.org'
 token: 'your-duckdns-token'
+schedule: '*/5 * * * *'
 
 secret:
   name: 'duckdns-api-key-secret'

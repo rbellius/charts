@@ -21,7 +21,7 @@ spec:
   # ttlSecondsAfterFinished: 3600
   startingDeadlineSeconds: 300
   concurrencyPolicy: Replace
-  schedule: "5 * * * *"
+  schedule: '{{ .Values.schedule }}'
   jobTemplate:
     metadata:
       labels:
