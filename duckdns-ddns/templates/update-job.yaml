@@ -2,12 +2,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 'duckdns-ip-job'
+  name: 'duckdns-update-job'
   namespace: duckdns-ddns
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
   labels:
-    app.kubernetes.io/name: duckdns-ddns
+    app.kubernetes.io/component: job
+    app.kubernetes.io/instance:  duckdns-ddns
+    app.kubernetes.io/name: duckdns-ddns-job
+    app.kubernetes.io/part-of: duckdns-ddns
 spec:
   backoffLimit: 10
   ttlSecondsAfterFinished: 600
