@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: 'duckdns-ip-job'
+        app: 'duckdns-update-job'
     spec:
 
       serviceAccountName: service-reader-sa
