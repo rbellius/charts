@@ -2,28 +2,28 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: service-reader-sa
-  namespace: duckdns-ddns
+  namespace: '{{ .Release.Namespace }}'
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
-  labels:
-    app.kubernetes.io/component: service-account
-    app.kubernetes.io/instance:  duckdns-ddns
-    app.kubernetes.io/name: duckdns-ddns-service-account
-    app.kubernetes.io/part-of: duckdns-ddns
+  # labels:
+  #   app.kubernetes.io/component: service-account
+  #   app.kubernetes.io/instance:  duckdns-ddns
+  #   app.kubernetes.io/name: duckdns-ddns-service-account
+    # app.kubernetes.io/part-of: duckdns-ddns
 ---
 
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: kube-system
   name: service-reader
+  namespace: '{{ .Release.Namespace }}'
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
-  labels:
-    app.kubernetes.io/component: cluster-role
-    app.kubernetes.io/instance:  duckdns-ddns
-    app.kubernetes.io/name: duckdns-ddns-cluster-role
-    app.kubernetes.io/part-of: duckdns-ddns
+  # labels:
+  #   app.kubernetes.io/component: cluster-role
+  #   app.kubernetes.io/instance:  duckdns-ddns
+  #   app.kubernetes.io/name: duckdns-ddns-cluster-role
+  #   app.kubernetes.io/part-of: duckdns-ddns
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["services"]
@@ -34,13 +34,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: duckdns-ddns-rbac
+  namespace: '{{ .Release.Namespace }}'
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
-  labels:
-    app.kubernetes.io/component: cluster-role-binding
-    app.kubernetes.io/instance:  duckdns-ddns
-    app.kubernetes.io/name: duckdns-ddns-cluster-role-binding
-    app.kubernetes.io/part-of: duckdns-ddns
+  # labels:
+  #   app.kubernetes.io/component: cluster-role-binding
+  #   app.kubernetes.io/instance:  duckdns-ddns
+  #   app.kubernetes.io/name: duckdns-ddns-cluster-role-binding
+  #   app.kubernetes.io/part-of: duckdns-ddns
 subjects:
   - kind: ServiceAccount
     # Reference to upper's `metadata.name`
