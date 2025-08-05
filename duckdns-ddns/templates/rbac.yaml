@@ -47,7 +47,7 @@ subjects:
     # Reference to upper's `metadata.name`
     name: service-reader-sa
     # Reference to upper's `metadata.namespace`
-    namespace: duckdns-ddns
+    namespace: '{{ .Release.Namespace }}'
 roleRef:
   kind: ClusterRole
   name: service-reader
