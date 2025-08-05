@@ -5,6 +5,8 @@ metadata:
   namespace: duckdns-ddns
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
+  labels:
+    app.kubernetes.io/name: duckdns-ddns
 ---
 
 kind: ClusterRole
@@ -14,6 +16,8 @@ metadata:
   name: service-reader
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
+  labels:
+    app.kubernetes.io/name: duckdns-ddns
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["services"]
@@ -26,6 +30,8 @@ metadata:
   name: duckdns-ddns-rbac
   annotations:
     argocd.argoproj.io/instance: duckdns-ddns
+  labels:
+    app.kubernetes.io/name: duckdns-ddns
 subjects:
   - kind: ServiceAccount
     # Reference to upper's `metadata.name`

@@ -35,26 +35,28 @@ spec:
 
           # Cloudflare Orgin CA API Token
           apiKeySecretRef:
-            name: cloudflare-api-key-secret
-            key: cloudflare
+            name: '{{ .Values.provider }}-api-key-secret'
+            key: '{{ .Values.provider }}'
       selector:
         dnsZones:
         - '{{ .Values.domain }}'
 
 
-    # - dns01:
-    #     webhook:
-    #       config:
-    #         apiTokenSecretRef:
-    #           key: token
-    #           name: cert-manager-webhook-duckdns
-    #       groupName: acme.duckdns.org
-    #       solverName: duckdns
+    - dns01:
+        webhook:
+          config:
+            apiTokenSecretRef:
+              name: '{{ .Values.provider }}-api-key-secret'
+              key: '{{ .Values.provider }}'
+          groupName: 'acme.{{ .Values.domain }}'
+          solverName: duckdns
+      selector:
+        dnsZones:
+        - '*.duckdns.org'
 
 
-      
 
-    
+
 # ---
 # apiVersion: cert-manager.io/v1
 # kind: Certificate

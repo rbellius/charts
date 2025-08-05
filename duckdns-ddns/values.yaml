@@ -1,5 +1,9 @@
 domain: 'example.duckdns.org'
 token: 'your-duckdns-token'
 
+secret:
+  name: 'duckdns-api-key-secret'
+  key: 'duckdns'
+
 kubectl:
   version: '1.31'

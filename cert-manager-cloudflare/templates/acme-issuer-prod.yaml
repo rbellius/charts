@@ -36,7 +36,7 @@ spec:
           # Cloudflare Orgin CA API Token
           apiKeySecretRef:
             name: '{{ .Values.provider}}-api-key-secret'
-            key: {{ .Values.provider }} 
+            key: '{{ .Values.provider }}'
       selector:
         dnsZones:
         - '{{ .Values.domain }}' 

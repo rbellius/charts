@@ -1,8 +1,10 @@
 name: nginx
 namespace: local
 
-domain: example.com
-subdomain: app
+dns:
+  domain: example.com
+  subdomain: app
+  provider: duckdns
 
 env: staging
 
