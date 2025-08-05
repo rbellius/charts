@@ -3,7 +3,7 @@ token: 'your-duckdns-token'
 
 secret:
   name: 'duckdns-api-key-secret'
-  key: 'duckdns'
+  key: 'token'
 
 kubectl:
   version: '1.31'

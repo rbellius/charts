@@ -30,8 +30,8 @@ spec:
         - name: $DUCKDNS_TOKEN
           valueFrom:
             secretKeyRef:
-              name: my-secret
-              key: username
+              name: '{{ .Values.duckdns.secret.naame }}'
+              key: '{{ .Values.duckdns.secret.key }}'
         - name: MY_PASSWORD
         args:
           - |
