@@ -47,7 +47,8 @@ spec:
                 echo "DUCKDNS TOKEN"
                 echo $DUCKDNS_TOKEN
                 echo "Getting the current public IP address of the k8s-gateway service"
-                export GATEWAY_IP=$(kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                # kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+                export GATEWAY_IP=$({{ .Values.getIpCommand}})
                 yq -n '.duckdns.ip = env(GATEWAY_IP)' > gateway-ip.yaml
                 
                 echo "Gateway IP: ${GATEWAY_IP}"

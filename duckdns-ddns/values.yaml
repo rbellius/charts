@@ -6,5 +6,7 @@ secret:
   name: 'duckdns-api-key-secret'
   key: 'token'
 
+getIpCommand: 'curl -s https://api.ipify.org'
+
 kubectl:
   version: '1.31'
