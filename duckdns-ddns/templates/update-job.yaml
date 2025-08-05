@@ -27,7 +27,7 @@ spec:
         image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
         command: ["/bin/sh", "-c"]
         env:
-        - name: $DUCKDNS_TOKEN
+        - name: DUCKDNS_TOKEN
           valueFrom:
             secretKeyRef:
               name: '{{ .Values.secret.name }}'
