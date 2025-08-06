@@ -10,7 +10,7 @@ metadata:
     # external-dns.alpha.kubernetes.io/target: 192.168.12.184
   labels:
     app.kubernetes.io/component: deployment
-    app.kubernetes.io/instance:  '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}'
+    app.kubernetes.io/instance:  '{{ .Values.name }}'
     app.kubernetes.io/name: '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}-deployment'
     app.kubernetes.io/part-of: '{{ .Values.name }}'
 spec:

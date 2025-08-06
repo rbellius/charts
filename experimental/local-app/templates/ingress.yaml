@@ -6,12 +6,9 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: '{{ .Values.dns.provider }}-letsencrypt-{{ .Values.env }}'
     argocd.argoproj.io/instance: '{{ .Values.name }}'
-    # cert-manager.io/cluster-issuer: acme-issuer-{{ .Values.env }}
-    # external-dns.alpha.kubernetes.io/hostname: '{{ .Values.subdomain | default .Values.name }}.{{ .Values.domain }}'
-    # external-dns.alpha.kubernetes.io/target: 192.168.12.184
   labels:
     app.kubernetes.io/component: ingress
-    app.kubernetes.io/instance:  '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}'
+    app.kubernetes.io/instance:  '{{ .Values.name }}'
     app.kubernetes.io/name: '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}-ingress'
     app.kubernetes.io/part-of: '{{ .Values.name }}'
 

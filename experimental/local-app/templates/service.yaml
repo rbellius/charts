@@ -8,7 +8,7 @@ metadata:
 
   labels:
     app.kubernetes.io/component: service
-    app.kubernetes.io/instance:  '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}'
+    app.kubernetes.io/instance:  '{{ .Values.name }}'
     app.kubernetes.io/name: '{{ .Values.name }}-{{ .Values.namespace }}-{{ .Values.env }}-service'
     app.kubernetes.io/part-of: '{{ .Values.name }}'
 spec:
