@@ -1,12 +1,10 @@
 domain: 'example.duckdns.org'
-token: 'your-duckdns-token'
 schedule: '*/5 * * * *'
+getIpCommand: 'curl -s https://api.ipify.org'
 
 secret:
   name: 'duckdns-api-key-secret'
   key: 'token'
-
-getIpCommand: 'curl -s https://api.ipify.org'
 
 kubectl:
   version: '1.31'
