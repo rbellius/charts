@@ -14,5 +14,5 @@ metadata:
 spec:
     subdomain: '{{ .Values.dns.subdomain | default .Values.name }}'
     serviceName: '{{ .Values.name }}'
-    provider: '{{ .Values.provider | default "duckdns" }}'
+    provider: '{{ .Values.dns.provider | default "duckdns" }}'
     env: '{{ .Values.env | default "staging" }}'

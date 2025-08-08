@@ -2,7 +2,6 @@ name: nginx
 namespace: local
 
 dns:
-  domain: example.com
   subdomain: app
   provider: duckdns
 
