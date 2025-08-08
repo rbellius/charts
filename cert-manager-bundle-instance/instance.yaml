@@ -2,6 +2,7 @@ apiVersion: kro.run/v1alpha1
 kind: CertManangerBundle
 metadata:
   name: cert-manager-bundle
+  namespace: cert-manager
   annotations:
     argocd.argoproj.io/instance: cert-manager-bundle
 spec:
