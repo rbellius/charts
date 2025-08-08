@@ -1,0 +1,18 @@
+apiVersion: kro.run/v1alpha1
+kind: IngressRequest
+metadata:
+  name: '{{ .Values.name }}-ingress-request'
+  namespace: '{{ .Values.namespace }}'
+  annotations:
+    argocd.argoproj.io/instance: '{{ .Values.name }}-{{ .Values.namespace }}-ingress-request'
+  labels:
+    app.kubernetes.io/instance: '{{ .Values.name }}-{{ .Values.namespace }}-ingress-request'
+    app.kubernetes.io/component: ingress-request
+    app.kubernetes.io/name: '{{ .Values.name }}'
+    app.kubernetes.io/part-of: '{{ .Values.namespace }}'
+
+spec:
+    subdomain: '{{ .Values.dns.subdomain | default .Values.name }}'
+    serviceName: '{{ .Values.name }}'
+    provider: '{{ .Values.provider | default "duckdns" }}'
+    env: '{{ .Values.env | default "staging" }}'
