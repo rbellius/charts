@@ -51,7 +51,7 @@ spec:
 
                 echo "Command used to retreive IP address: {{ .Values.getIpCommand }}"
 
-                echo "Getting the current public IP address of the k8s-gateway service"
+                echo "Getting IP address..."
                 export IP_ADDRESS=$({{ .Values.getIpCommand }})
 
                 
