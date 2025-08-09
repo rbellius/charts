@@ -12,7 +12,10 @@ metadata:
     app.kubernetes.io/part-of: '{{ .Values.namespace }}'
 
 spec:
-    subdomain: '{{ .Values.dns.subdomain | default .Values.name }}'
-    serviceName: '{{ .Values.name }}'
-    provider: '{{ .Values.dns.provider | default "duckdns" }}'
+
     env: '{{ .Values.env | default "staging" }}'
+    subdomain: '{{ .Values.dns.subdomain | default .Values.name }}'
+ 
+    service:
+      name: '{{ .Values.name }}'
+      port: '{{ .Values.service.port }}'
