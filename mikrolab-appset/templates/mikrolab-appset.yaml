@@ -321,7 +321,7 @@ spec:
           # mikrolab
           - enabled: true
             name: mikrolabrgds
-            namespace: mikrolabrgds
+            namespace: mikrolab-rgds
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
             path: rgds
