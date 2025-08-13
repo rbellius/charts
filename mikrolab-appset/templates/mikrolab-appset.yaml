@@ -444,19 +444,19 @@ spec:
   template:
 
     metadata:
-      name:                           mikrolab-{{ .name }}
-      # namespace:                      argocd 
+      name:                           '{{`{{ .name }}`}}'
+      namespace:                      argocd 
       
       annotations:
-        argocd.argoproj.io/sync-wave: '{{ .syncWave }}'
-        argocd.argoproj.io/hook:      '{{ .hook }}'
+        argocd.argoproj.io/sync-wave: '{{`{{ .syncWave }}`}}'
+        argocd.argoproj.io/hook:      '{{`{{ .hook }}`}}'
       finalizers:
       - resources-finalizer.argocd.argoproj.io/foreground
       
       labels:
-        app.kubernetes.io/name:       '{{ .name }}'
-        app.kubernetes.io/instance:   '{{ .namespace | default .name }}'
-        app.kubernetes.io/component:  '{{ .namespace }}'
+        app.kubernetes.io/name:       '{{`{{ .name }}`}}'
+        app.kubernetes.io/instance:   '{{`{{ .namespace | default .name }}`}}'
+        app.kubernetes.io/component:  '{{`{{ .namespace }}`}}'
         # app.kubernetes.io/part-of:    mikrolab
     spec:
 
@@ -464,7 +464,7 @@ spec:
 
       destination:
         server:                       https://kubernetes.default.svc
-        namespace:                    '{{ .namespace | default .name }}'
+        namespace:                    '{{`{{ .namespace | default .name }}`}}'
 
       syncPolicy:
         automated:
@@ -477,28 +477,26 @@ spec:
 
   templatePatch: |
     spec:
-
-
       source:
 
-          repoURL:        '{{ .repoURL }}'
-          targetRevision: '{{ .targetRevision }}'
+          repoURL:        '{{`{{ .repoURL }}`}}'
+          targetRevision: '{{'{{ .targetRevision }}'}}'
                 
-        {{- if .path }}
-          path:           '{{ .path }}'
-        {{- end }}
+        {{`{{- if .path }}`}}
+          path:           '{{`{{ .path }}'`}}
+        {{`{{- end }}`}}
 
-        {{- if .chart }}
-          chart:          '{{ .chart }}'
-        {{- end }}
+        {{`{{- if .chart }}`}}
+          chart:          '{{`{{ .chart }}`}}'
+        {{`{{- end }}`}}
 
-        {{- if .directory }}
+        {{`{{- if .directory }}`}}
           directory:
-            {{- toYaml .directory | nindent 12   }}
-        {{- end }}
+            {{`{{- toYaml .directory | nindent 12   }}`}}
+        {{`{{- end }}`}}
 
-        {{- if .values }}
+        {{`{{- if .values }}`}}
           helm:
             valuesObject:
-               {{- toYaml .values | nindent 12   }}
-        {{- end }}
+               {{`{{- toYaml .values | nindent 12   }}`}}
+        {{`{{- end }}`}}
