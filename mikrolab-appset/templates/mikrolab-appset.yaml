@@ -486,8 +486,8 @@ spec:
         {{`{{- end }}`}}
      
         {{`{{- if .directory }}`}}
-            directory:
-              {{`{{- toYaml .directory | nindent 12 }}`}}
+          directory:
+            {{`{{- toYaml .directory | nindent 12 }}`}}
         {{`{{- end }}`}}
 
         {{`{{- if .values }}`}}
