@@ -18,9 +18,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
 
-  name: mikrolab
+  name: mikrolab-appset
   namespace: argocd
 spec: 
+
   goTemplate: true
   # goTemplateOptions: ["missingkey=error"]
   generators:
@@ -29,7 +30,7 @@ spec:
   - list:
       elements:
           ## or do it in here with subsections. Like .charts for the charts below and .props or above it. Both could optionaly be git-file generators to abstract it all away to allow appsets to be used for easy chart declarations
-
+          ## this could also be in a configmap, or a kro backed configmap, so that its decoupled and typed
           # duckdns-ddns
           - enabled: false
             name: duckdns-ddns
@@ -318,30 +319,36 @@ spec:
               #   app.kubernetes.io/name: kro
               
 
-          # arkocd-bundle
+          # mikrolab
           - enabled: true
+            name: mikrolab-rgds
+            namespace: mikrolab-rgds
+            repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+            targetRevision: main
+            path: rgds
+            directory:
+              recurse: true
+              # include: "*.yaml"
+            # hook: PreSync
+
+
+          # arkocd-bundle
+          - enabled: false
             name: arkrocd-rgd
             namespace: argocd
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
-            path: arkrocd-bundle
+            path: rgds/arkrocd-bundle
             hook: PreSync
             # syncWave: -10
-            # values:
-            #   crds:
-            #     install: true
-            #     keep: false
-                # tag: 0.3.0
-              # additionalLabels:
-              #   app.kubernetes.io/name: kro
 
-  
+
           # cert-manager-bundle
-          - enabled: true
+          - enabled: false
             name: cert-manager-bundle-rgd
             namespace: cert-manager
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
-            path: cert-manager-bundle-rgd
+            path: rgds/cert-manager-bundle-rgd
             targetRevision: main
             hook: PreSync
             # syncWave: -5
@@ -350,23 +357,24 @@ spec:
             
 
           # ingress-request
-          - enabled: true
+          - enabled: false
             name: ingress-request
             namespace: cert-manager
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
-            path: ingress-request-rgd
+            path: rgds/ingress-request-rgd
             targetRevision: main
             # hook: PreSync
             # syncWave: -5
             values: ""
             
 
-          - enabled: true
+          - enabled: false
             name: mirkolab
             namespace: mikrolab
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
-            path: mikrolab-rgd
+            path: rgds/mikrolab-rgd
+
             # syncWave: 10
 
           - enabled: false
@@ -485,9 +493,12 @@ spec:
           chart:          '{{ .chart }}'
         {{- end }}
 
+        {{- if .directory }}
+          directory:
+            {{- toYaml .directory | nindent 12   }}
+        {{- end }}
 
         {{- if .values }}
-
           helm:
             valuesObject:
                {{- toYaml .values | nindent 12   }}
