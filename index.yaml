@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  duckdns-ddns:
+  - apiVersion: v2
+    created: "2025-08-12T19:41:24.237544369-05:00"
+    description: A Helm chart for Kubernetes
+    digest: f947895b3c99cc2e169435d51a345fc122a826bfd0a0b1dd84558de7f80500b5
+    name: duckdns-ddns
+    urls:
+    - duckdns-ddns-0.1.1.tgz
+    version: 0.1.1
+  mikrolab-appset:
+  - apiVersion: v2
+    created: "2025-08-12T19:41:24.237715216-05:00"
+    description: A Helm chart for Kubernetes
+    digest: 1c576fde5a463ad4f76fa797c7a33d7c07eb352901bfdf491d7bd7ccace02ffe
+    name: mikrolab-appset
+    urls:
+    - mikrolab-appset-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-08-12T19:41:24.237293994-05:00"
