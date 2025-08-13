@@ -3,11 +3,11 @@ entries:
   mikrolab-appset:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-12T22:52:48.732169957-05:00"
+    created: "2025-08-12T22:55:18.173387658-05:00"
     description: A Helm chart for Kubernetes
-    digest: 448d203de6aae3daa221c853cf582ed68064a94c4effc527bcc5868bfecd7cc9
+    digest: 5a063064c53d0ad3bde908d2a9775dd1fd3ec0f30a8bf8683ccb1875919fc5c8
     name: mikrolab-appset
     urls:
     - mikrolab-appset-0.1.1.tgz
     version: 0.1.1
-generated: "2025-08-12T22:52:48.731954473-05:00"
+generated: "2025-08-12T22:55:18.173169181-05:00"

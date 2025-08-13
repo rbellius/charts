@@ -475,10 +475,10 @@ spec:
           # - ApplyOutOfSyncOnly=true
 
 
-  templatePatch: |
+  templatePatch:
     spec:
       source:
           repoURL:        '{{`{{ .repoURL }}`}}'
           targetRevision: '{{`{{ .targetRevision }}`}}'
-          path:           '{{`{{ .path }}`}}
+          path:           '{{`{{ .path }}`}}'
      
