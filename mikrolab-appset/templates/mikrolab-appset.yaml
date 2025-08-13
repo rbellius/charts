@@ -475,28 +475,28 @@ spec:
           # - ApplyOutOfSyncOnly=true
 
 
-  templatePatch: |
-    spec:
-      source:
+  # templatePatch: |
+  #   spec:
+  #     source:
 
-          repoURL:        '{{`{{ .repoURL }}`}}'
-          targetRevision: '{{'{{ .targetRevision }}'}}'
+  #         repoURL:        '{{`{{ .repoURL }}`}}'
+  #         targetRevision: '{{'{{ .targetRevision }}'}}'
                 
-        {{`{{- if .path }}`}}
-          path:           '{{`{{ .path }}'`}}
-        {{`{{- end }}`}}
+  #       {{- if .path }}
+  #         path:           '{{`{{ .path }}'`}}
+  #       {{- end }}
 
-        {{`{{- if .chart }}`}}
-          chart:          '{{`{{ .chart }}`}}'
-        {{`{{- end }}`}}
+  #       {{- if .chart }}
+  #         chart:          '{{`{{ .chart }}`}}'
+  #       {{- end }}
 
-        {{`{{- if .directory }}`}}
-          directory:
-            {{`{{- toYaml .directory | nindent 12   }}`}}
-        {{`{{- end }}`}}
+  #       {{- if .directory }}}
+  #         directory:
+  #           {{`{{- toYaml .directory | nindent 12   }}`}}
+  #       {{- end }}
 
-        {{`{{- if .values }}`}}
-          helm:
-            valuesObject:
-               {{`{{- toYaml .values | nindent 12   }}`}}
-        {{`{{- end }}`}}
+  #       {{- if .values }}
+  #         helm:
+  #           valuesObject:
+  #              {{- toYaml .values | nindent 12   }}
+  #       {{- end }}
