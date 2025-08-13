@@ -17,7 +17,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-
   name: mikrolab-appset
   namespace: argocd
 spec: 
@@ -321,8 +320,8 @@ spec:
 
           # mikrolab
           - enabled: true
-            name: mikrolab-rgds
-            namespace: mikrolab-rgds
+            name: mikrolabrgds
+            namespace: mikrolabrgds
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
             path: rgds
