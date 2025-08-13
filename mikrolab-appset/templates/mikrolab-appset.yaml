@@ -487,11 +487,11 @@ spec:
      
         '{{`{{- if .directory }}`}}'
             directory:
-              {{`{{- toYaml .directory | nindent 12   }}`}}
+              `{{`{{- toYaml .directory | nindent 12 }}`}}`
         '{{`{{- end }}`}}'
 
         '{{`{{- if .values }}`}}'
           helm:
             valuesObject:
-              '{{`{{- toYaml .values | nindent 12   }}`}}`
+              '{{`{{- toYaml .values | nindent 12 }}`}}`
         '{{`{{- end }}`}}`
