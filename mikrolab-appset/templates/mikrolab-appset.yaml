@@ -475,10 +475,30 @@ spec:
           # - ApplyOutOfSyncOnly=true
 
 
-  templatePatch: |
+  templatePatch: | 
     spec:
       source:
           repoURL:        '{{`{{ .repoURL }}`}}'
           targetRevision: '{{`{{ .targetRevision }}`}}'
+
+        '{{`{{- if .chart }}`}}'
           path:           '{{`{{ .path }}`}}'
+        '{{`{{- else if }}`}}'
      
+
+
+
+
+
+
+
+# {{- if .directory }}}
+#   directory:
+#     {{`{{- toYaml .directory | nindent 12   }}`}}
+# {{- end }}
+
+# {{- if .values }}
+#   helm:
+#     valuesObject:
+#        {{- toYaml .values | nindent 12   }}
+# {{- end }}
