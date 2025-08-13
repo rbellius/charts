@@ -482,6 +482,10 @@ spec:
           targetRevision: {{`{{ .targetRevision }}`}}
 
         {{`{{- if .chart }}`}}
+          chart:           {{`{{ .chart }}`}}
+        {{`{{- end }}`}}
+     
+        {{`{{- if .path }}`}}
           path:           {{`{{ .path }}`}}
         {{`{{- end }}`}}
      
