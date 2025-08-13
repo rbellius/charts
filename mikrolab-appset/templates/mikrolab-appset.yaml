@@ -481,8 +481,6 @@ spec:
 
           repoURL:        '{{`{{ .repoURL }}`}}'
           targetRevision: '{{`{{ .targetRevision }}`}}'
-                
-      
           path:           '{{`{{ .path }}`}}
      
 
