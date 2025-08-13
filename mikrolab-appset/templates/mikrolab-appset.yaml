@@ -17,7 +17,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: mikrolab-appset
+
+  name: mikrolab
   namespace: argocd
 spec: 
 
@@ -29,7 +30,7 @@ spec:
   - list:
       elements:
           ## or do it in here with subsections. Like .charts for the charts below and .props or above it. Both could optionaly be git-file generators to abstract it all away to allow appsets to be used for easy chart declarations
-          ## this could also be in a configmap, or a kro backed configmap, so that its decoupled and typed
+
           # duckdns-ddns
           - enabled: false
             name: duckdns-ddns
@@ -320,7 +321,7 @@ spec:
 
           # mikrolab
           - enabled: true
-            name: mikrolabrgds
+            name: mikrolab-rgds
             namespace: mikrolab-rgds
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
