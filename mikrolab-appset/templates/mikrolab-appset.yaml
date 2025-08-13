@@ -480,7 +480,7 @@ spec:
       source:
 
           repoURL:        '{{ .repoURL }}'
-          targetRevision: '{{ .targetRevision }}'
+          targetRevision: '{{`{{ .targetRevision }}`}}'
                 
   #       {{- if .path }}
   #         path:           '{{`{{ .path }}'`}}
