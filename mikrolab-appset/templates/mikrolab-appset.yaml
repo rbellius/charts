@@ -482,9 +482,9 @@ spec:
           repoURL:        '{{ .repoURL }}'
           targetRevision: '{{`{{ .targetRevision }}`}}'
                 
-        '{{'{{- if .path }}'}}''
+        '{{{{- if .path }}}}''
           path:           '{{`{{ .path }}`}}
-        '{{`{{- end }}`}}''
+        '{{{{- end }}}}''
 
   #       {{- if .chart }}
   #         chart:          '{{`{{ .chart }}`}}'
