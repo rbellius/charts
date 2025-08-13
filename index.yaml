@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  mikrolab-appset:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-08-12T21:49:10.011121982-05:00"
+    description: A Helm chart for Kubernetes
+    digest: d294def0ae04aa493bb79f8ec846b9d2117aa8f058861732caba51cada113a04
+    name: mikrolab-appset
+    urls:
+    - mikrolab-appset-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-08-12T21:49:10.010921416-05:00"
