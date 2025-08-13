@@ -462,10 +462,6 @@ spec:
 
       project:                        default
 
-      destination:
-        server:                       https://kubernetes.default.svc
-        namespace:                    '{{`{{ .namespace | default .name }}`}}'
-
       syncPolicy:
         automated:
           selfHeal: true
@@ -474,28 +470,34 @@ spec:
           - CreateNamespace=true
           # - ApplyOutOfSyncOnly=true
 
+      destination:
+        server:                       https://kubernetes.default.svc
+        namespace:                    '{{`{{ .namespace | default .name }}`}}'
+
+      source:
+          repoURL:                    '{{`{{ .repoURL }}`}}'
+          targetRevision:             '{{`{{ .targetRevision }}`}}'
+
 
   templatePatch: | 
     spec:
       source:
-          repoURL:        {{`{{ .repoURL }}`}}
-          targetRevision: {{`{{ .targetRevision }}`}}
 
-        {{`{{- if .chart }}`}}
-          chart:           {{`{{ .chart }}`}}
-        {{`{{- end }}`}}
-     
-        {{`{{- if .path }}`}}
-          path:           {{`{{ .path }}`}}
-        {{`{{- end }}`}}
-     
-        {{`{{- if .directory }}`}}
-          directory:
-            {{`{{- toYaml .directory | nindent 12 }}`}}
-        {{`{{- end }}`}}
+      {{`{{- if .chart }}`}}
+        chart:           {{`{{ .chart }}`}}
+      {{`{{- end }}`}}
+    
+      {{`{{- if .path }}`}}
+        path:           {{`{{ .path }}`}}
+      {{`{{- end }}`}}
+    
+      {{`{{- if .directory }}`}}
+        directory:
+          {{`{{- toYaml .directory | nindent 12 }}`}}
+      {{`{{- end }}`}}
 
-        {{`{{- if .values }}`}}
-          helm:
-            valuesObject:
-              {{`{{- toYaml .values | nindent 12 }}`}}
-        {{`{{- end }}`}}
+      {{`{{- if .values }}`}}
+        helm:
+          valuesObject:
+            {{`{{- toYaml .values | nindent 12 }}`}}
+      {{`{{- end }}`}}
