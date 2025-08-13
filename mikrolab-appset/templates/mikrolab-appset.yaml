@@ -319,17 +319,6 @@ spec:
               #   app.kubernetes.io/name: kro
               
 
-          # mikrolab
-          - enabled: true
-            name: mikrolab-rgds
-            namespace: mikrolab-rgds
-            repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
-            targetRevision: main
-            path: rgds
-            directory:
-              recurse: true
-              # include: "*.yaml"
-            # hook: PreSync
 
 
           # arkocd-bundle
@@ -366,10 +355,21 @@ spec:
             # hook: PreSync
             # syncWave: -5
             values: ""
-            
+
+          # mikrolab-rgds
+          - enabled: true
+            name: mikrolab-rgds
+            namespace: mikrolab-rgds
+            repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+            targetRevision: main
+            path: rgds
+            directory:
+              recurse: true
+              # include: "*.yaml"
+            # hook: PreSync
 
           - enabled: false
-            name: mirkolab
+            name: mirkolab-only
             namespace: mikrolab
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
@@ -445,7 +445,7 @@ spec:
   template:
 
     metadata:
-      name:                           '{{ .name }}'
+      name:                           mikrolab-{{ .name }}
       namespace:                      argocd 
       
       annotations:
