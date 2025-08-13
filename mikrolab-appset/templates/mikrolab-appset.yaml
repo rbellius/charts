@@ -479,12 +479,12 @@ spec:
     spec:
       source:
 
-          repoURL:        '{{ .repoURL }}'
+          repoURL:        '{{`{{ .repoURL }}`}}'
           targetRevision: '{{`{{ .targetRevision }}`}}'
                 
-  # '{{'{{- if .path }}'}}'
-  #   path:           '{{`{{ .path }}`}}
-  # '{{`{{- end }}`}}'
+      
+          path:           '{{`{{ .path }}`}}
+     
 
   #       {{- if .chart }}
   #         chart:          '{{`{{ .chart }}`}}'
