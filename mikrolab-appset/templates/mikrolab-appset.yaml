@@ -358,7 +358,7 @@ spec:
           # mikrolab-rgds
           - enabled: true
             name: mikrolab
-            namespace: mikrolab-rgds
+            namespace: mikrolab
             repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
             targetRevision: main
             path: rgds
@@ -485,20 +485,13 @@ spec:
           path:           '{{`{{ .path }}`}}'
         '{{`{{- else if }}`}}'
      
+        '{{`{{- if .directory }}`}}'
+            directory:
+              {{`{{- toYaml .directory | nindent 12   }}`}}
+        '{{`{{- end }}`}}'
 
-
-
-
-
-
-
-# {{- if .directory }}}
-#   directory:
-#     {{`{{- toYaml .directory | nindent 12   }}`}}
-# {{- end }}
-
-# {{- if .values }}
-#   helm:
-#     valuesObject:
-#        {{- toYaml .values | nindent 12   }}
-# {{- end }}
+        '{{`{{- if .values }}`}}'
+          helm:
+            valuesObject:
+              '{{`{{- toYaml .values | nindent 12   }}`}}`
+        '{{`{{- end }}`}}`
