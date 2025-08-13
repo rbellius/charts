@@ -17,7 +17,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: mikrolab-appset
+  name: mikrolab-appset-remote
   namespace: argocd
 spec: 
 
