@@ -478,20 +478,20 @@ spec:
   templatePatch: | 
     spec:
       source:
-          repoURL:        '{{`{{ .repoURL }}`}}'
-          targetRevision: '{{`{{ .targetRevision }}`}}'
+          repoURL:        {{`{{ .repoURL }}`}}
+          targetRevision: {{`{{ .targetRevision }}`}}
 
-        '{{`{{- if .chart }}`}}'
-          path:           '{{`{{ .path }}`}}'
-        '{{`{{- end }}`}}'
+        {{`{{- if .chart }}`}}
+          path:           {{`{{ .path }}`}}
+        {{`{{- end }}`}}
      
-        '{{`{{- if .directory }}`}}'
+        {{`{{- if .directory }}`}}
             directory:
               {{`{{- toYaml .directory | nindent 12 }}`}}
-        '{{`{{- end }}`}}'
+        {{`{{- end }}`}}
 
-        '{{`{{- if .values }}`}}'
+        {{`{{- if .values }}`}}
           helm:
             valuesObject:
               {{`{{- toYaml .values | nindent 12 }}`}}
-        '{{`{{- end }}`}}'
+        {{`{{- end }}`}}
