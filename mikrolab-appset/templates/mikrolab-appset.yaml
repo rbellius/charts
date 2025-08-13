@@ -479,8 +479,8 @@ spec:
     spec:
       source:
 
-          repoURL:        '{{`{{ .repoURL }}`}}'
-          targetRevision: '{{'{{ .targetRevision }}'}}'
+          repoURL:        '{{ .repoURL }}'
+          targetRevision: '{{ .targetRevision }}'
                 
   #       {{- if .path }}
   #         path:           '{{`{{ .path }}'`}}
