@@ -155,7 +155,7 @@ spec:
                     exclude: {{`{{ .source.directory.exclude | quote }}`}}
                 {{`{{- end }}`}}
 
-                {{`{{- if .source.values }}``}}
+                {{`{{- if .source.values }}`}}
                   helm:
                     values: {{`{{ .source.values | quote }}`}}
                 {{`{{- end }}`}}
