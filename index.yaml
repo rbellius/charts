@@ -3,7 +3,7 @@ entries:
   argodfile-applicationset-rgd:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-16T15:27:22.695989015-05:00"
+    created: "2025-08-16T15:31:38.655836594-05:00"
     description: A Helm chart for Kubernetes
     digest: 3073e6ab06d4f7855bb68f87d0ad92d2ff4835e25ab7f2c31f62ff747af547e7
     name: argodfile-applicationset-rgd
@@ -13,11 +13,11 @@ entries:
   mikrolab-appset:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-16T15:27:22.696323854-05:00"
+    created: "2025-08-16T15:31:38.656513469-05:00"
     description: A Helm chart for Kubernetes
     digest: 8bd3f1358a760f2332ca3284b3c0d5f0cc8087e14c700baf36328f1446e52377
     name: mikrolab-appset
     urls:
     - mikrolab-appset-0.1.1.tgz
     version: 0.1.1
-generated: "2025-08-16T15:27:22.695798419-05:00"
+generated: "2025-08-16T15:31:38.655658348-05:00"
