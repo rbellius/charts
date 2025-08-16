@@ -144,7 +144,7 @@ spec:
                   chart: {{`{{ .source.chart }}`}}
                 {{`{{- end }}`}}
 
-                {{`{{- if .source.path }}``}}
+                {{`{{- if .source.path }}`}}
                   path:  {{`{{ .source.path }}`}}
                 {{`{{- end }}`}}
               
