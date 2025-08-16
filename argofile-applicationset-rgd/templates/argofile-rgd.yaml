@@ -148,14 +148,14 @@ spec:
                   path:  {{`{{ .source.path }}`}}
                 {{`{{- end }}`}}
               
-                {{'{{- if .source.directory.recurse }}'}}
+                {{`{{- if .source.directory.recurse }}`}}
                   directory:
                     recurse: {{`{{ .source.directory.recurse }}`}}
                     include: {{`{{ .source.directory.include | quote }}`}}
                     exclude: {{`{{ .source.directory.exclude | quote }}`}}
                 {{`{{- end }}`}}
 
-                {{'{{- if .source.values }}'}}
+                {{`{{- if .source.values }}``}}
                   helm:
                     values: {{`{{ .source.values | quote }}`}}
                 {{`{{- end }}`}}
