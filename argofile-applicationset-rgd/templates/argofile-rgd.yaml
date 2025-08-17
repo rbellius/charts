@@ -140,7 +140,7 @@ spec:
               spec:
                 source:
 
-                '{{`{{- if .source.chart }}`}}'
-                  chart: '{{`{{ .source.chart }}`}}'
-                '{{`{{- end }}`}}'
+                {{`{{- if .source.chart }}`}}
+                  chart: {{`{{ .source.chart }}`}}
+                {{`{{- end }}`}}
 
