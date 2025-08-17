@@ -142,26 +142,5 @@ spec:
 
                 '{{`{{- if .source.chart }}`}}'
                   chart: '{{`{{ .source.chart }}`}}'
-                {{`{{- end }}`}}
-
-                '{{`{{- if .source.path }}`}}'
-                  path:  '{{`{{ .source.path }}`}}'
                 '{{`{{- end }}`}}'
-              
-                {{`{{- if .source.directory.recurse }}`}}
-                  directory:
-                    recurse: {{`{{ .source.directory.recurse }}`}}
-                    include: {{`{{ .source.directory.include | quote }}`}}
-                    exclude: {{`{{ .source.directory.exclude | quote }}`}}
-                {{`{{- end }}`}}
-
-                {{`{{- if .source.values }}``}}
-                  helm:
-                    values: {{`{{ .source.values | quote }}`}}
-                {{`{{- end }}`}}
-
-
-
-
-
 
