@@ -54,6 +54,11 @@ spec:
                 echo "Getting IP address..."
                 export IP_ADDRESS=$({{ .Values.getIpCommand }})
 
+                if [ -z "${IP_ADDRESS}" ]; then
+                  echo "Failed to retrieve IP address. Exiting."
+                  exit 1
+                fi
+
                 
                 echo "Gateway IP: ${IP_ADDRESS}"
                 echo "Updating ${DOMAIN} @ DuckDNS with IP address: ${GATEWAY_IP}"
