@@ -1,0 +1,503 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: default
+  namespace: argocd
+spec:
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mikrolab-appset-remote
+  namespace: argocd
+spec: 
+
+  goTemplate: true
+  # goTemplateOptions: ["missingkey=error"]
+  generators:
+
+    ## Todo: Create another list generator for repeated varaibles, and those that should not be harocoded directly below. This can later be replaced and git file generator.
+  - list:
+      elements:
+          ## or do it in here with subsections. Like .charts for the charts below and .props or above it. Both could optionaly be git-file generators to abstract it all away to allow appsets to be used for easy chart declarations
+
+          # # duckdns-ddns
+          # - enabled: false
+          #   name: duckdns-ddns
+          #   namespace: cert-manager
+          #   repoURL: git@github.com:rbellius/charts.git
+          #   path: duckdns-ddns
+          #   targetRevision: main
+          #   # syncWave: -10
+          #   # hook: PreSync
+          #   values:
+
+          #     domain: mikrolab.duckdns.org
+          #     schedule: "*/5 * * * *"
+
+          #     secret:
+          #       name: duckdns-api-key-secret
+          #       key: token
+
+          #     getIpCommand: kubectl -n kube-system get svc traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+
+          # # cert-manager-cloudflare
+          # - enabled: false
+          #   name: cert-manager-cloudflare
+          #   namespace: cert-manager
+          #   repoURL: git@github.com:rbellius/charts.git
+          #   path: cert-manager-cloudflare
+          #   targetRevision: main
+          #   # hook: PreSync
+          #   # syncWave: -10
+          #   values:
+          #     provider: cloudflare
+          #     email: eddie.moya@gmail.com
+          #     domain: cloudbreaker.me
+               
+              
+          # argocd
+          # - enabled: false
+          #   name: argocd 
+          #   namespace: argocd
+          #   repoURL: https://argoproj.github.io/argo-helm
+          #   chart: argo-cd
+          #   targetRevision: 8.0.0
+          #   # syncWave: 10
+          #   hook: PostSync
+          #   values:
+
+          #       global:
+          #         domain: mikrolab.duckdns.org
+
+          #       crds:
+          #         create: true
+          #         keep: false
+
+          #       dex:
+          #         enabled: false
+
+          #       server:
+          #         ingress:
+          #           tls: true
+          #           enabled: true
+          #           annotations:
+          #             cert-manager.io/cluster-issuer: duckdns-letsencrypt-staging 
+
+          #       configs:
+          #         params:
+          #           server.insecure: true
+
+          #         cm:
+          #           timeout.reconciliation: 15s
+          #           # application.instanceLabelKey: argocd.argoproj.io/instance
+          #           application.resourceTrackingMethod: "annotation+label"
+          #           applicationsetcontroller.enable.new.git.file.globbing: "true"
+
+          #           resource.customizations.health:
+
+          #             argoproj.io_Application: |
+          #                 hs = {}
+          #                 hs.status = "Progressing"
+          #                 hs.message = ""
+          #                 if obj.status ~= nil then
+          #                   if obj.status.health ~= nil then
+          #                     hs.status = obj.status.health.status
+          #                     if obj.status.health.message ~= nil then
+          #                       hs.message = obj.status.health.message
+          #                     end
+          #                   end
+          #                 end
+          #                 return hs
+          #             argoproj.io_ApplicationSet: |
+          #               local hs = {}
+
+          #               if obj.status ~= nil then
+          #                 if obj.status.conditions ~= nil then
+          #                   for i, condition in pairs(obj.status.conditions) do
+          #                     if condition.type == "ErrorOccurred" and condition.status == "True" then
+          #                       hs.status = "Degraded"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                   end
+          #                   for i, condition in pairs(obj.status.conditions) do
+          #                     if condition.type == "ResourcesUpToDate" and condition.status == "False" then
+          #                       hs.status = "Degraded"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                   end
+          #                   for i, condition in pairs(obj.status.conditions) do
+          #                     if condition.type == "RolloutProgressing" and condition.status == "True" then
+          #                       hs.status = "Progressing"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                   end
+          #                   for i, condition in pairs(obj.status.conditions) do
+          #                     if condition.type == "ResourcesUpToDate" and condition.status == "True" then
+          #                       hs.status = "Healthy"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                   end
+          #                 end
+          #               end
+
+          #               hs.status = "Progressing"
+          #               hs.message = "Waiting for the status to be reported"
+          #               return hs
+          #             apiextentions.k8s.io_CustomResourceDefinition: |
+          #               local hs = {}
+
+          #               -- Check if CRD is terminating
+          #               if obj.metadata.deletionTimestamp ~= nil then
+          #                   hs.status = "Progressing"
+          #                   hs.message = "CRD is terminating"
+          #                   return hs
+          #               end
+
+          #               if obj.status.conditions == nil then
+          #                   hs.status = "Progressing"
+          #                   hs.message = "Status conditions not found"
+          #                   return hs
+          #               end
+
+          #               if #obj.status.conditions == 0 then
+          #                   hs.status = "Progressing"
+          #                   hs.message = "Status conditions not found"
+          #                   return hs
+          #               end
+
+          #               local isEstablished
+          #               local conditionMsg = ""
+
+          #               for _, condition in pairs(obj.status.conditions) do
+
+          #                   -- Check if CRD is terminating
+          #                   if condition.type == "Terminating" and condition.status == "True" then
+          #                       hs.status = "Progressing"
+          #                       hs.message = "CRD is terminating: " .. condition.message
+          #                       return hs
+          #                   end
+
+          #                   -- Check if K8s has accepted names for this CRD
+          #                   if condition.type == "NamesAccepted" and condition.status == "False" then
+          #                       hs.status = "Degraded"
+          #                       hs.message = "CRD names have not been accepted: " .. condition.message
+          #                       return hs
+          #                   end
+
+          #                   -- Checking if CRD has violations
+          #                   if condition.type == "NonStructuralSchema" and condition.status == "True" then
+          #                       hs.status = "Degraded"
+          #                       hs.message = "Schema violations found: " .. condition.message
+          #                       return hs
+          #                   end
+
+          #                   -- Checking if CRD is established
+          #                   if condition.type == "Established" and condition.status == "True" then
+          #                       isEstablished = true
+          #                       conditionMsg = condition.message
+          #                   end
+          #               end
+
+          #               if not isEstablished then
+          #                   hs.status = "Degraded"
+          #                   hs.message = "CRD is not established"
+          #                   return hs
+          #               end
+
+          #               hs.status = "Healthy"
+          #               hs.message = "CRD is healthy"
+          #               return hs
+          #             cert-manager.io_Certificate: |
+          #               hs = {}
+          #               if obj.status ~= nil then
+          #                 if obj.status.conditions ~= nil then
+          #                   for i, condition in ipairs(obj.status.conditions) do
+          #                     if condition.type == "Ready" and condition.status == "False" then
+          #                       hs.status = "Degraded"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                     if condition.type == "Ready" and condition.status == "True" then
+          #                       hs.status = "Healthy"
+          #                       hs.message = condition.message
+          #                       return hs
+          #                     end
+          #                   end
+          #                 end
+          #               end
+
+          #               hs.status = "Progressing"
+          #               hs.message = "Waiting for certificate"
+          #               return hs
+
+
+
+          # # cert-manager
+          # - enabled: false
+          #   name: cert-manager
+          #   namespace: cert-manager
+          #   repoURL:   https://charts.jetstack.io/
+          #   chart: cert-manager
+          #   targetRevision: 1.17.2
+          #   # hook: PreSync
+          #   # syncWave: -10             
+          #   values:
+          #       crds:
+          #         enabled: true
+          #         keep: true
+                  
+          #       enableCertificateOwnerRef: true
+          #       extraArgs:
+          #         - --dns01-recursive-nameservers-only
+          #         - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
+
+          # # cert-manager-duckdns-webhook
+          # - enabled: false
+          #   name: cert-manager-webhook-duckdns
+          #   namespace: cert-manager
+          #   repoURL: https://csp33.github.io/cert-manager-duckdns-webhook  # replace with correct repo URL
+          #   chart: cert-manager-duckdns-webhook
+          #   targetRevision: 1.1.3
+          #   # hook: PreSync
+          #   # syncWave: -5
+          #   values:
+          #     crds:
+          #       enabled: true
+          #       keep: false
+
+          #     groupName: acme.rbellius.com
+
+          #     fullnameOverride: "cert-manager-webook-duckdns"
+
+          #     clusterIssuer:
+          #       email: eddie.moya@gmail.com
+
+          #       ## A defect in this chart prevents the staging issuer from being created if production is enabled.
+          #       production:
+          #         create: true
+          #         server: https://acme-v02.api.letsencrypt.org/directory
+          #         name: duckdns-letsencrypt-prod
+          #       staging:
+          #         create: true
+          #         server: https://acme-staging-v02.api.letsencrypt.org/directory
+          #         name: duckdns-letsencrypt-staging
+
+          #     token:
+          #       existingSecret: true
+          #       existingSecretName: duckdns-api-key-secret
+
+          # #kro
+          # - enabled: false
+          #   name: kro
+          #   namespace: kro
+          #   repoURL: https://github.com/rbellius/kro.git
+          #   targetRevision: main
+          #   path: helm
+          #   hook: PostSync
+          #   # syncWave: -10
+          #   values:
+          #     crds:
+          #       install: true
+          #       keep: false
+          #       # tag: 0.3.0
+          #     # additionalLabels:
+          #     #   app.kubernetes.io/name: kro
+              
+
+
+
+          # # arkocd-bundle
+          # - enabled: false
+          #   name: arkrocd-rgd
+          #   namespace: argocd
+          #   repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+          #   targetRevision: main
+          #   path: rgds/arkrocd-bundle
+          #   hook: PreSync
+          #   # syncWave: -10
+
+
+          # # cert-manager-bundle
+          # - enabled: false
+          #   name: cert-manager-bundle-rgd
+          #   namespace: cert-manager
+          #   repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+          #   path: rgds/cert-manager-bundle-rgd
+          #   targetRevision: main
+          #   hook: PreSync
+          #   # syncWave: -5
+          #   values: ""
+
+            
+
+          # # ingress-request
+          # - enabled: false
+          #   name: ingress-request
+          #   namespace: cert-manager
+          #   repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+          #   path: rgds/ingress-request-rgd
+          #   targetRevision: main
+          #   # hook: PreSync
+          #   # syncWave: -5
+          #   values: ""
+
+          # mikrolab-rgds
+          - enabled: true
+            name: mikrolab
+            namespace: mikrolab
+            repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+            targetRevision: main
+            path: rgds
+            directory:
+              recurse: true
+              # include: "*.yaml"
+            # hook: PreSync
+
+          # - enabled: false
+          #   name: mirkolab-only
+          #   namespace: mikrolab
+          #   repoURL: git@github.com:rbellius/resourcegraphdefinitions.git
+          #   targetRevision: main
+          #   path: rgds/mikrolab-rgd
+
+            # syncWave: 10
+
+          # - enabled: false
+          #   name: cert-manager-bundle-instance
+          #   namespace: cert-manager
+          #   repoURL: git@github.com:rbellius/charts.git
+          #   targetRevision: main
+          #   path: cert-manager-bundle-instance
+          #   # syncWave: 10
+          #   # hook: PostSync
+
+
+          # # remote 
+          # - enabled: false
+          #   name: remote
+          #   namespace: remote
+          #   repoURL: git@github.com:rbellius/charts.git
+          #   targetRevision: main
+          #   path: experimental/local-app
+          #   # syncWave: 10
+          #   # hook: PostSync
+          #   values:
+          #     name: remote
+          #     namespace: remote   
+
+          #     dns:
+          #       subdomain: remote
+
+          #     env: staging
+
+          # # k8s-gateway
+          # - enabled: false
+          #   name: k8s-gateway
+          #   namespace: k8s-gateway
+          #   repoURL: https://ori-edge.github.io/k8s_gateway/
+          #   chart: k8s-gateway
+          #   targetRevision: 2.4.0
+          #   # hook: PreSync
+          #   # syncWave: -5
+          #   values:
+          #     domain: mikrolab.duckdns.org
+          #     apex: mikrolab.duckdns.org
+
+          #     watchedResources: ["Ingress"]
+
+          #     service:
+          #       type: LoadBalancer
+          #       # loadBalancerIP: 192.168.1.11
+          #       externalTrafficPolicy: Local 
+
+          #     fallthrough:
+          #       enabled: true
+
+          #     debug:
+          #       enabled: true 
+          #       logLevel: debug   
+                     
+
+            
+    selector:
+      matchExpressions:
+        - key: enabled
+          operator: In
+          values:
+            - "true"
+
+    
+  template:
+
+    metadata:
+      name:                           '{{`{{ .name }}`}}'
+      namespace:                      argocd 
+      
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{`{{ .syncWave }}`}}'
+        argocd.argoproj.io/hook:      '{{`{{ .hook }}`}}'
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io/foreground
+      
+      labels:
+        app.kubernetes.io/name:       '{{`{{ .name }}`}}'
+        app.kubernetes.io/instance:   '{{`{{ .namespace | default .name }}`}}'
+        app.kubernetes.io/component:  '{{`{{ .namespace }}`}}'
+        # app.kubernetes.io/part-of:    mikrolab
+    spec:
+
+      project:                        default
+
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+
+          - CreateNamespace=true
+          # - ApplyOutOfSyncOnly=true
+
+      destination:
+        server:                       https://kubernetes.default.svc
+        namespace:                    '{{`{{ .namespace | default .name }}`}}'
+
+      source:
+          repoURL:                    '{{`{{ .repoURL }}`}}'
+          targetRevision:             '{{`{{ .targetRevision }}`}}'
+
+
+  templatePatch: | 
+    spec:
+      source:
+
+      {{`{{- if .chart }}`}}
+        chart:           {{`{{ .chart }}`}}
+      {{`{{- end }}`}}
+    
+      {{`{{- if .path }}`}}
+        path:           {{`{{ .path }}`}}
+      {{`{{- end }}`}}
+    
+      {{`{{- if .directory }}`}}
+        directory:
+          {{`{{- toYaml .directory | nindent 12 }}`}}
+      {{`{{- end }}`}}
+
+      {{`{{- if .values }}`}}
+        helm:
+          valuesObject:
+            {{`{{- toYaml .values | nindent 12 }}`}}
+      {{`{{- end }}`}}

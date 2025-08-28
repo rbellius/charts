@@ -1,0 +1,65 @@
+
+apiVersion: batch/v1
+kind: CronJob
+
+
+metadata:
+  name: duckdns-update-cronjob
+  namespace: '{{ .Release.Namespace }}'
+  annotations:
+    argocd.argoproj.io/instance: duckdns-ddns
+  labels:
+    app.kubernetes.io/component: job
+    app.kubernetes.io/instance:  duckdns-ddns
+    app.kubernetes.io/name: duckdns-ddns-job
+    app.kubernetes.io/part-of: duckdns-ddns
+
+
+spec:
+
+  # backoffLimit: 10
+  # ttlSecondsAfterFinished: 3600
+  startingDeadlineSeconds: 300
+  concurrencyPolicy: Replace
+  schedule: '{{ .Values.schedule }}'
+  jobTemplate:
+    metadata:
+      labels:
+        app: 'duckdns-update-cronjob'
+    spec:
+      template:
+        spec:
+          serviceAccountName: service-reader-sa
+          restartPolicy: OnFailure
+          containers:
+          - name: 'kubectl-duckdns-update-container'
+            image: 'ghcr.io/rbellius/kubectl:{{ .Values.kubectl.version }}'
+            command: ["/bin/sh", "-c"]
+            env:
+            - name: DUCKDNS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: '{{ .Values.secret.name }}'
+                  key: '{{ .Values.secret.key }}'
+            - name: DOMAIN
+              value: '{{ .Values.domain }}'
+            args:
+              - |
+              
+                kubectl version
+                yq --version
+
+                echo "Command used to retreive IP address: {{ .Values.getIpCommand }}"
+
+                echo "Getting IP address..."
+                export IP_ADDRESS=$({{ .Values.getIpCommand }})
+
+                if [ -z "${IP_ADDRESS}" ]; then
+                  echo "Failed to retrieve IP address. Exiting."
+                  exit 1
+                fi
+
+                
+                echo "Gateway IP: ${IP_ADDRESS}"
+                echo "Updating ${DOMAIN} @ DuckDNS with IP address: ${GATEWAY_IP}"
+                curl -s "https://www.duckdns.org/update/${DOMAIN}/${DUCKDNS_TOKEN}/${IP_ADDRESS}?verbose=true"

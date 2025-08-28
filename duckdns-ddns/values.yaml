@@ -1,0 +1,10 @@
+domain: 'example.duckdns.org'
+schedule: '*/5 * * * *'
+getIpCommand: 'curl -s https://api.ipify.org'
+
+secret:
+  name: 'duckdns-api-key-secret'
+  key: 'token'
+
+kubectl:
+  version: '1.31'

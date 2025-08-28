@@ -1,0 +1,81 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+
+metadata:
+  name: cloudflare-letsencrypt-staging
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/instance: cert-manager-cloudflare
+  labels:
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/component: cloudflare-issuer-staging
+    app.kubernetes.io/name: cert-manager-cloudflare-issuer-staging
+    app.kubernetes.io/part-of: cert-manager
+spec:
+  acme:
+
+    # Email address used for ACME registration
+    email: {{ .Values.email }}
+
+    # Let's Encrypt Staging
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+
+    # Let's Encrypt Production
+    # server: https://acme-v02.api.letsencrypt.org/directory
+
+
+    privateKeySecretRef:
+      name: issuer-account-key
+
+    solvers:
+
+    # DNS01 challenge
+    - dns01:
+
+        # Cloudflare DNS01 challenge provider
+        cloudflare:
+
+          # Cloudflare acccount email
+          email: {{ .Values.email }}
+
+          # Cloudflare Orgin CA API Token
+          apiKeySecretRef:
+            name: '{{ .Values.provider }}-api-key-secret'
+            key: '{{ .Values.provider }}'
+      selector:
+        dnsZones:
+        - '{{ .Values.domain }}'
+
+
+    # - dns01:
+    #     webhook:
+    #       config:
+    #         apiTokenSecretRef:
+    #           name: 'duckdns-api-key-secret'
+    #           key: duckdns
+    #       groupName: 'acme.mikrolab.duckdns.org'
+    #       solverName: duckdns
+    #   selector:
+    #     dnsZones:
+    #     - 'duckdns.org'
+
+
+
+
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: prod-cert
+#   namespace: demo
+# spec:
+#   commonName: "*.{{ .Values.domain }}"
+#   dnsNames:
+#     - '*.{{ .Values.domain }}' 
+#   secretName: prod-cert
+#   issuerRef:
+#     name: acme-issuer
+#     kind: ClusterIssuer 
+
+
+      
