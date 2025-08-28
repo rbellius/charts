@@ -3,21 +3,30 @@ entries:
   argofile-applicationset-rgd:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-08-16T15:46:50.885382604-05:00"
+    created: "2025-08-28T14:59:12.006918593-05:00"
     description: A Helm chart for Kubernetes
     digest: 30e7f1dc6d04a80eb2099f03ececa3b1897c1b88d45eeafe76cf2de171751dc7
     name: argofile-applicationset-rgd
     urls:
     - argofile-applicationset-rgd-0.1.0.tgz
     version: 0.1.0
-  mikrolab-appset:
+  cert-manager-cloudflare:
   - apiVersion: v2
-    appVersion: 1.0.0
-    created: "2025-08-16T15:46:50.885516565-05:00"
-    description: A Helm chart for Kubernetes
-    digest: 8bd3f1358a760f2332ca3284b3c0d5f0cc8087e14c700baf36328f1446e52377
-    name: mikrolab-appset
+    appVersion: 0.1.0
+    created: "2025-08-28T14:59:12.00711836-05:00"
+    description: A Helm chart for Kubernetes test
+    digest: 14841b74d7017fc3d881ad93856fb8fe40e3f4d017e70a67817e6c50a0ee9285
+    name: cert-manager-cloudflare
     urls:
-    - mikrolab-appset-0.1.1.tgz
+    - cert-manager-cloudflare-0.1.0.tgz
+    version: 0.1.0
+  duckdns-ddns:
+  - apiVersion: v2
+    created: "2025-08-28T14:59:12.00735885-05:00"
+    description: A Helm chart for Kubernetes
+    digest: 295510abb07a8badc58af6c7e11c4bab87c01c4ea3545b5b845be0294514cb7c
+    name: duckdns-ddns
+    urls:
+    - duckdns-ddns-0.1.1.tgz
     version: 0.1.1
-generated: "2025-08-16T15:46:50.885211659-05:00"
+generated: "2025-08-28T14:59:12.006389439-05:00"
